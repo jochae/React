@@ -18,7 +18,7 @@ function Signup({ onSwitchToLogin }) {
     isNickError: false
   });
 
-  const [emailValid, setEmailValid] = useState(null); // null: 미입력, true: 유효, false: 유효하지 않음
+  const [emailValid, setEmailValid] = useState(null); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,8 +69,7 @@ function Signup({ onSwitchToLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.username) return alert('아이디를 입력해주세요.');
-    if (!formData.name) return alert('이름을 입력해주세요.');
+    if (!formData.username) return alert('이름을 입력해주세요.');
     if (!formData.email) return alert('이메일을 입력해주세요.');
     if (!emailValid) return alert('이메일 형식이 올바르지 않습니다.');
     if (!status.isEmailChecked) return alert('이메일 중복 확인이 필요합니다.');
@@ -79,7 +78,7 @@ function Signup({ onSwitchToLogin }) {
     if (!formData.nickname) return alert('닉네임을 입력해주세요.');
     if (!status.isNickChecked) return alert('닉네임 중복 확인이 필요합니다.');
 
-    alert(`환영합니다, ${formData.name}(${formData.nickname})님! 가입이 완료되었습니다.`);
+    alert(`환영합니다, ${formData.username}(${formData.nickname})님! 가입이 완료되었습니다.`);
     onSwitchToLogin();
   };
 
@@ -88,7 +87,6 @@ function Signup({ onSwitchToLogin }) {
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
 
-        {/* 2. 이름 */}
         <div className="input-group">
           <input
             type="text"
@@ -101,7 +99,6 @@ function Signup({ onSwitchToLogin }) {
           />
         </div>
 
-        {/* 3. 이메일 */}
         <div className="input-group">
           <div className="id-check-wrapper">
             <input
@@ -121,7 +118,6 @@ function Signup({ onSwitchToLogin }) {
           {status.isEmailError && <p className="msg-error">❌ 이미 사용중인 이메일</p>}
         </div>
 
-        {/* 4. 비밀번호 */}
         <div className="input-group">
           <input
             type="password"
@@ -134,7 +130,6 @@ function Signup({ onSwitchToLogin }) {
           />
         </div>
 
-        {/* 5. 비밀번호 확인 */}
         <div className="input-group">
           <input
             type="password"
@@ -152,7 +147,6 @@ function Signup({ onSwitchToLogin }) {
           )}
         </div>
 
-        {/* 6. 닉네임 */}
         <div className="input-group">
           <div className="id-check-wrapper">
             <input
