@@ -138,6 +138,14 @@ function AppContent() {
               </ProtectedRoute>
             } 
           />
+          <Route 
+            path="/globalsearch" 
+            element={
+              <ProtectedRoute>
+                <GlobalSearch />
+              </ProtectedRoute>
+            } 
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
