@@ -1,40 +1,31 @@
-// UserContext.js
 import { createContext, useState, useEffect } from "react";
-import axios from "axios";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // 로딩 상태
+  const [user, setUser] = useState(() => {
+    // 새로고침 시 localStorage에서 user 정보 가져오기
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setLoading(false);
-      return;
-    }
+  const [loading, setLoading] = useState(false);
 
-    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-    axios.get(`${BASE_URL}/api/auth/me`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => setUser(res.data))
-      .catch(err => {
-        console.log("자동 로그인 실패", err);
-        setUser(null);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  // 로그인 시 user 정보를 저장하고 localStorage에도 저장
+  const login = (userData, token) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
+  };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, logout, loading }}>
+    <UserContext.Provider value={{ user, setUser, login, logout, loading }}>
       {children}
     </UserContext.Provider>
   );
